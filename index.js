@@ -54,4 +54,73 @@ const countSort = (arr) => {
 
 }
 
-console.log(countSort(list))
+// console.log(countSort(list))
+
+
+// 大数相加
+const a = '9007199254740991'
+const b = '1234567899999999999'
+
+const add = (a, b) => {
+  const maxLength = Math.max(a.length, b.length)
+  a = a.padStart(maxLength, '0')
+  b = b.padStart(maxLength, '0')
+
+  let list = []
+  const carry = []
+
+  for (let i = 0; i < maxLength; i++) {
+    const sum = parseInt(a[i]) + parseInt(b[i])
+    list.push(sum % 10) // 个位
+    carry.push(Math.floor(sum / 10)) // 进位
+  }
+
+  for (let i = list.length - 2; i >= 0; i--) {
+    const sum = list[i] + carry[i + 1]
+
+    // 各位加上进位
+    if (sum >= 10) {
+      list[i - 1] += 1
+      list[i] = sum % 10
+    } else {
+      list[i] = sum
+    }
+
+    // 如果进位后还大于10
+    if (list[i] >= 10) {
+      list[i] = sum % 10
+      list[i - 1] += 1
+    }
+
+  }
+
+  return list.join('')
+}
+
+add(a, b)
+
+
+// 两数之和
+
+const nums = [2, 7, 11, 15], target = 18
+
+const twoSum = (nums, target) => {
+  const myMap = new Map()
+
+  nums.forEach((item, index) => {
+    myMap.set(item, index)
+  })
+
+  let result
+
+  nums.forEach((item, index) => {
+    const complement = target - item
+    if(myMap.has(complement) && myMap.get(complement) !== index){
+      result = [index, myMap.get(complement)].sort()
+    }
+  })
+
+  return result || 'no result'
+}
+
+console.log(twoSum(nums, target));
